@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState} from 'react';
 
 let baseUrl = "fakeapi";
 
 export const Todos = () => {
 
-    useEffect(() => {
-        fetch(`/${baseUrl}/getUsers`)
-            .then(res => res.json())
-            .then(data => console.log('data'.data))
-    })
+    let [data, setData] = useState([]);
 
     const addTodoHandler = () => {
         fetch(`/${baseUrl}/addTodo`,{
@@ -21,10 +17,22 @@ export const Todos = () => {
         })
     }
 
+    const getDatahandler = () => {
+        fetch(`/${baseUrl}/getTodos`)
+            .then(res => res.json())
+            .then(data => {
+                setData(data.todos)
+                console.log('data'.data)})
+    }
+
     return (
         <div>
             Hello From Todo
             <button onClick= {addTodoHandler}>addTodoHandler</button>
+            <button onClick={getDatahandler}>get Todos</button>
+            {
+                JSON.stringify(data)
+            }
         </div>
     )
 }
